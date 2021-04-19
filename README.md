@@ -4,9 +4,11 @@ A game based on the Restricted Rock Paper Scissors arc in Kaiji.
 [English](./README_en.md)
 
 ## 介绍
-- Springboot + vue的web游戏项目  
-- 游戏规则可查询搜索引擎  
-- 十分简陋, 只有基本交互, 欢迎贡献  
+实现了基本的游戏规则  
+将一个星期作为赛季  
+一个赛季内只可使用6个石头、剪刀、布  
+当使用玩时根据输赢获得的分数计算排行榜  
+更多功能待开发  
 
 ## 软件架构
 Springboot、vue、MySQL
