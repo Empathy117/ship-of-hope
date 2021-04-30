@@ -18,7 +18,6 @@ A game based on the Restricted Rock Paper Scissors arc in Kaiji.
 
 ## 目录结构
 
-git commit -m "add gorm and user register api"
 ## 安装
 
 ```bash
