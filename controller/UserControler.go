@@ -1,11 +1,15 @@
 package controller
 
 import (
-	"log"
+	"github.com/empathy117/ship-of-hope/common"
+	"github.com/empathy117/ship-of-hope/model"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"net/http"
 )
 
 func Register(ctx *gin.Context) {
+	DB := common.GetDB()
 
 	// get data
 	name := ctx.PostForm("name")
@@ -26,20 +30,18 @@ func Register(ctx *gin.Context) {
 		return
 	}
 
-	log.Println(name, telephone, password)
-
 	// check data's existence (telephone && name)
-	if !isTelephoneExist(db, telephone) {
+	if !isTelephoneExist(DB, telephone) {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "手机号已被注册"})
 		return
 	}
-	if !isNameExist(db, name) {
+	if !isNameExist(DB, name) {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "用户已存在"})
 		return
 	}
 
 	// create user
-	newUser := User{
+	newUser := model.User{
 		Name:      name,
 		Telephone: telephone,
 		Password:  password,
@@ -49,10 +51,29 @@ func Register(ctx *gin.Context) {
 		Scissor:   5,
 		IsPlaying: false,
 	}
-	db.Create(&newUser)
+	DB.Create(&newUser)
 
 	// return result
 	ctx.JSON(200, gin.H{
 		"msg": "注册成功",
 	})
-})
+}
+
+func isTelephoneExist(db *gorm.DB, telephone string) bool {
+	var user model.User
+	db.Where("telephone = ?", telephone).First(&user)
+	if user.ID != 0 {
+		return false
+	}
+	return true
+}
+
+func isNameExist(db *gorm.DB, name string) bool {
+	var user model.User
+	db.Where("name = ?", name).First(&user)
+	if user.ID != 0 {
+		return false
+	}
+	return true
+}
+
