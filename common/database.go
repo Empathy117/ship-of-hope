@@ -2,7 +2,7 @@ package common
 
 import (
 	"fmt"
-	"github.com/empathy117/ship-of-hope/model"
+	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
@@ -10,24 +10,22 @@ import (
 
 var DB *gorm.DB
 
-func InitDB() *gorm.DB {
-	host := "localhost"
-	port := "3306"
-	database := "gine"
-	username := "root"
-	password := "root"
-	charset := "utf8"
-	args := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=true&loc=Local",
-		username,
-		password,
-		host,
-		port,
-		database,
-		charset,
+func InitDB() {
+
+	//dsn: "root:root@tcp(127.0.0.1:3306)/shipofhope?charset=utf8&parseTime=True&loc=Local"
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=%s",
+		viper.Get("dataSource.username"),
+		viper.Get("dataSource.password"),
+		viper.Get("dataSource.host"),
+		viper.Get("dataSource.port"),
+		viper.Get("dataSource.database"),
+		viper.Get("dataSource.charset"),
+		viper.Get("dataSource.loc"),
 	)
+	log.Println("dsn: ", dsn)
 
 	db, err := gorm.Open(mysql.New(mysql.Config{
-		DSN:                       args,  // data source name
+		DSN:                       dsn,  // data source name
 		DefaultStringSize:         256,   // default size for string fields
 		DisableDatetimePrecision:  true,  // disable datetime precision, which not supported before MySQL 5.6
 		DontSupportRenameIndex:    true,  // drop & create when rename index, rename index not supported before MySQL 5.7, MariaDB
@@ -38,12 +36,10 @@ func InitDB() *gorm.DB {
 	if err != nil {
 		log.Println("database connect fail err:", err.Error())
 	}
-	db.AutoMigrate(&model.User{})
-	db.AutoMigrate(&model.Player{})
 	DB = db
-	return db
 }
 
 func GetDB() *gorm.DB {
+	DB.Debug()
 	return DB
 }

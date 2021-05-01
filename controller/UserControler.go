@@ -11,9 +11,9 @@ import (
 	"log"
 	"net/http"
 )
-var DB = common.InitDB()
 
 func Register(ctx *gin.Context) {
+	DB := common.GetDB()
 
 	// get data
 	name := ctx.PostForm("name")
@@ -67,6 +67,7 @@ func Register(ctx *gin.Context) {
 
 // Login for user to login
 func Login(ctx *gin.Context) {
+	DB := common.GetDB()
 
 	// get data
 	name := ctx.PostForm("name")

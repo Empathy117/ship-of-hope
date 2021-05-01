@@ -1,3 +1,10 @@
 server:
   port: 8080
-datasource:
+dataSource:
+  host: "127.0.0.1"
+  port: "3306"
+  database: shipofhope
+  username: root
+  password: root
+  charset: utf8
+  loc: Local
