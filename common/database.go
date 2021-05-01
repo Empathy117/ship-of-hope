@@ -39,11 +39,11 @@ func InitDB() *gorm.DB {
 		log.Println("database connect fail err:", err.Error())
 	}
 	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.Player{})
 	DB = db
 	return db
 }
 
 func GetDB() *gorm.DB {
-	DB.Debug()
 	return DB
 }
