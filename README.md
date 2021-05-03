@@ -1,5 +1,5 @@
 # ship-of-hope
-A game based on the Restricted Rock Paper Scissors arc in Kaiji.
+A game based on the Restricted Rock Paper Scissors arc in Kaiji.  
 一个由《赌博默示录》中希望之船里的石头剪刀布改编的游戏  
 [English](./README_en.md)
 
